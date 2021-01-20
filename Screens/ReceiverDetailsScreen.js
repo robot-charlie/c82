@@ -24,7 +24,7 @@ export default class RecieverDetailsScreen extends Component{
 
 
 getRecieverDetails(){
-  db.collection('users').where('email_id','==',this.state.recieverId).get()
+  db.collection('users').where('email_Id','==',this.state.recieverId).get()
   .then(snapshot=>{
     snapshot.forEach(doc=>{
       this.setState({
@@ -52,10 +52,21 @@ updateBookStatus=()=>{
   })
 }
 
-
+getUserDetails=(userId)=>{
+        db.collection("users").where('email_Id','==', userId).get()
+        .then((snapshot)=>{
+          snapshot.forEach((doc) => {
+            console.log("getUserDetails"+ doc.data())
+            this.setState({
+              userName  :doc.data().first_name + " " + doc.data().last_name
+            })
+          })
+        })
+      }
 
 componentDidMount(){
   this.getRecieverDetails()
+  this.getUserDetails(this.state.userId)
 }
 
 
